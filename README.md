@@ -1,7 +1,7 @@
 # Elegaiter SDK (Android) 연동 가이드
 
 <p align="center">
-<img  width="130" alt="image" src="https://github.com/user-attachments/assets/182670ab-569d-452e-8933-f4d4641a30b9" />
+<img  width="130" alt="image" src="docs/img/elegaiter_favicon.png" />
 </p>
 
 ### SDK 정보 요약
@@ -59,6 +59,7 @@ dependencyResolutionManagement {
 
 ## 2단계: SDK 의존성 추가
 SDK를 사용할 앱 모듈의 build.gradle.kts 파일을 열고, dependencies 블록에 아래 한 줄을 추가합니다.
+> 📌 최신 버전 확인: 아래 버전 번호는 예시입니다. 항상 [GitHub Releases](https://github.com/ggaggom/elegaiter-android-release/releases) 페이지에서 최신 버전을 확인한 후 적용해 주세요.
 ```kotlin
 // app/build.gradle.kts
 dependencies {
@@ -72,7 +73,9 @@ dependencies {
 
 ## 3단계: 프로젝트 동기화
 설정이 완료되면, Android Studio 우측 상단에 나타나는 Sync Now 버튼을 누르거나 Sync Project with Gradle Files 아이콘을 클릭하여 프로젝트를 동기화해 주세요.
-<img width="781" height="238" alt="제목 없음" src="https://github.com/user-attachments/assets/db285773-7432-4933-a962-aa2c5ade2013" />
+<p align="left">
+<img width="781" height="238" alt="제목 없음" src="docs/img/elegaiter_guide_step_3.png" />
+</p>
 
 
 ## 4단계: SDK 초기화 (Initialization)
@@ -89,6 +92,8 @@ fun init(
     onResult: (Boolean, ElegaiterInitResult, String?) -> Unit
 )
 ```
+> 📌 콜백 스레드 안내: onResult 콜백은 메인(UI) 스레드에서 호출됩니다. 별도의 runOnUiThread 처리 없이 바로 UI 업데이트가 가능합니다.
+
 **콜백 파라미터 안내**
 
 | 파라미터 | 타입 | 설명 |
@@ -142,7 +147,12 @@ class MyApplication : Application() {
     }
 }
 ```
-(주의: 이 방식을 사용하려면 AndroidManifest.xml의 <application> 태그에 android:name=".MyApplication"을 등록해야 합니다.)
+> ⚠️ 주의: 이 방식을 사용하려면 AndroidManifest.xml의 <application> 태그에 android:name=".MyApplication"을 반드시 등록해야 합니다.
+> ```xml
+> <application
+>     android:name=".MyApplication"
+>     ... >
+> ```
 
 ## 5단계: Import 확인 및 사용
 동기화와 초기화(`SUCCESS`)가 모두 완료되었다면, 이제 SDK의 다양한 기능들을 사용할 수 있습니다. `Elegaiter.getInstance()`를 호출하여 SDK 인스턴스를 가져온 뒤, 필요한 매니저(Manager)에 접근하여 기능을 구현하세요.
@@ -247,7 +257,7 @@ class MainViewModel : ViewModel() {
 ## 버전 관리 및 고객 지원
 
 * **버전 관리:** `MAJOR.MINOR.PATCH` 형태의 유의적 버전(Semantic Versioning)을 따릅니다. 가급적 최신 버전을 유지하는 것을 권장합니다.
-* **API 레퍼런스:** 각 Manager의 상세 메소드, 파라미터, 반환값 등의 구조는 별도로 제공되는 **[SDK 개발가이드_API 레퍼런스]** 문서를 참고해 주세요.
+* **API 레퍼런스:** 각 Manager의 상세 메소드, 파라미터, 반환값 등의 구조는 별도로 제공되는 **[SDK 개발가이드_API 레퍼런스](./docs/Guide_Android_API.md)** 문서를 참고해 주세요.
 * **기술 지원 및 문의:** SDK 연동 중 발생하는 이슈, API Key 발급, 기타 기술 지원은 **주식회사 사이클룩스 기술연구소**로 문의해 주시기 바랍니다.
 
 > **라이선스 안내:** 본 SDK의 사용 조건 및 라이선스는 당사와의 계약 및 제공 문서의 정책을 따릅니다.
