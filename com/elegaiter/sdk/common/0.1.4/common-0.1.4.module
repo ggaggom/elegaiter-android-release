@@ -1,0 +1,137 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.elegaiter.sdk",
+    "module": "common",
+    "version": "0.1.4",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "common-0.1.4.aar",
+          "url": "common-0.1.4.aar",
+          "size": 93235,
+          "sha512": "74ceb61dd612cba0f9f0f49f2ad0aca279ceb5d0bd68a646a30d7be2c99a17ead09057f8f8fec64795d4e31fcd7a7ee2fec8107dd2b24510f6c7bebfa7aebace",
+          "sha256": "eacec824af6715e6108ba840702bcfe26bedc8fca48c5c810841598a186efb82",
+          "sha1": "80668051b7db789e556e3130a582d0704cba3110",
+          "md5": "57d42a7eec95deff324b9dfb10f46536"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "common-0.1.4.aar",
+          "url": "common-0.1.4.aar",
+          "size": 93235,
+          "sha512": "74ceb61dd612cba0f9f0f49f2ad0aca279ceb5d0bd68a646a30d7be2c99a17ead09057f8f8fec64795d4e31fcd7a7ee2fec8107dd2b24510f6c7bebfa7aebace",
+          "sha256": "eacec824af6715e6108ba840702bcfe26bedc8fca48c5c810841598a186efb82",
+          "sha1": "80668051b7db789e556e3130a582d0704cba3110",
+          "md5": "57d42a7eec95deff324b9dfb10f46536"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "common-0.1.4-sources.jar",
+          "url": "common-0.1.4-sources.jar",
+          "size": 13594,
+          "sha512": "a63ef76d22f223079cbbb1e439bd29cca1496210aeaab048774322d0235d9d177a69fde91b0d15bbedf2828e02bbaacf3244d6533948d0f94291bb2d7879f7c5",
+          "sha256": "f19cae3d5ae91b039849f6895a938766bd38d72a06551455587203fa8b3cc47e",
+          "sha1": "4fb5b063131d40503493354e3bf525e14f220557",
+          "md5": "877db17601af8e707d396c7b2f7186e0"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseJavaDocPublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "common-0.1.4-javadoc.jar",
+          "url": "common-0.1.4-javadoc.jar",
+          "size": 413582,
+          "sha512": "1187eaaa25a921fa28901eaa69cd2755fe85654c116e337b6b7f0df85bad9f280c82c0f1c1baf2ef25b945fe0fdc7cb26ce6539b515d46dd58e48d844598dfd5",
+          "sha256": "4246ded04567928d44faf5145414d4ea695d9017e2577d94a1124992885d913a",
+          "sha1": "d00c964fdffc536c2a899a3a4de39e1a8bc5b822",
+          "md5": "c5b88c431a7032917d5dfcd77b43b25d"
+        }
+      ]
+    }
+  ]
+}
