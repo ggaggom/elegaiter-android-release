@@ -1,0 +1,216 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.elegaiter.sdk",
+    "module": "android",
+    "version": "0.1.5",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "common",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-ble",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-analysis",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-storage",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-network",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-user",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-record",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-core",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-0.1.5.aar",
+          "url": "android-0.1.5.aar",
+          "size": 31398,
+          "sha512": "f90e16b974c965b1a62c80b7b1075a4582fe4498a8b83e164fd66dc8ea7357af3b774e205f268d4a4928c316432c18aa16550b58c7a781e55f72dcc736c5fbac",
+          "sha256": "c74d42e5247a846072657de79e1a22b9c8b4ce7a4cf35534bdaa7c0a3fbfd2b7",
+          "sha1": "51e4aec4aba1a5d1487774cd9cfbfa71cd6f58be",
+          "md5": "ba27eff57469be7837cd69e6f371d424"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.16.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "androidx.lifecycle",
+          "module": "lifecycle-process",
+          "version": {
+            "requires": "2.9.3"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "common",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-ble",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-analysis",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-storage",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-network",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-user",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-record",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-core",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-0.1.5.aar",
+          "url": "android-0.1.5.aar",
+          "size": 31398,
+          "sha512": "f90e16b974c965b1a62c80b7b1075a4582fe4498a8b83e164fd66dc8ea7357af3b774e205f268d4a4928c316432c18aa16550b58c7a781e55f72dcc736c5fbac",
+          "sha256": "c74d42e5247a846072657de79e1a22b9c8b4ce7a4cf35534bdaa7c0a3fbfd2b7",
+          "sha1": "51e4aec4aba1a5d1487774cd9cfbfa71cd6f58be",
+          "md5": "ba27eff57469be7837cd69e6f371d424"
+        }
+      ]
+    }
+  ]
+}
