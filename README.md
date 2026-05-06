@@ -22,7 +22,9 @@
 
 ## 개요
 Elegaiter SDK를 귀사의 프로젝트에 연동하기 위한 가이드입니다.
-본 SDK는 Elegaiter 전용 원격 저장소(Maven Repository) 통해 안전하게 배포됩니다. 아래 5단계 설정을 통해 프로젝트에 SDK를 손쉽게 추가할 수 있습니다.
+본 SDK는 Elegaiter 전용 원격 저장소(Maven Repository) 통해 안전하게 배포됩니다. 아래 6단계 설정을 통해 프로젝트에 SDK를 손쉽게 추가할 수 있습니다.
+
+---
 
 ## 0단계: 사전 협의 및 API Key 발급 (필수)
 Elegaiter SDK는 철저한 보안과 라이선스 관리를 위해 동작합니다. 따라서 SDK를 프로젝트에 연동하기 전에 Elegaiter 팀과의 사전 협의를 통해 귀사 전용 **API Key**를 발급받아야 합니다.
@@ -42,6 +44,8 @@ Elegaiter SDK는 철저한 보안과 라이선스 관리를 위해 동작합니�
 위 정보(패키지 이름, SHA-256)를 전달해 주시면, 귀사 앱에서만 동작하는 **고유 API Key**를 발급하여 전달해 드립니다.
 이 API Key는 이후 가이드의 **'4단계: SDK 초기화'** 과정에서 `Elegaiter.init()` 함수를 호출할 때 사용됩니다. 발급받은 키를 안전하게 보관해 주세요!
 
+---
+
 ## 1단계: SDK 저장소(Repository) 설정
 Gradle이 SDK를 다운로드할 수 있도록 프로젝트 최상위의 `settings.gradle.kts` 파일에 Elegaiter SDK 저장소 주소를 등록합니다.
 ```kotlin
@@ -57,6 +61,8 @@ dependencyResolutionManagement {
 }
 ```
 
+---
+
 ## 2단계: SDK 의존성 추가
 SDK를 사용할 앱 모듈의 build.gradle.kts 파일을 열고, dependencies 블록에 아래 한 줄을 추가합니다.
 > 📌 최신 버전 확인: 아래 버전 번호는 예시입니다. 항상 [GitHub Releases](https://github.com/ggaggom/elegaiter-android-release/releases) 페이지에서 최신 버전을 확인한 후 적용해 주세요.
@@ -71,17 +77,59 @@ dependencies {
 ```
 참고: 위 한 줄만 추가하면 SDK 동작에 필요한 내부 모듈(Network, Ble 등) 및 관련 라이브러리들이 자동으로 함께 프로젝트에 추가됩니다.
 
+---
+
 ## 3단계: 프로젝트 동기화
 설정이 완료되면, Android Studio 우측 상단에 나타나는 Sync Now 버튼을 누르거나 Sync Project with Gradle Files 아이콘을 클릭하여 프로젝트를 동기화해 주세요.
 <p align="left">
 <img width="781" height="238" alt="제목 없음" src="docs/img/elegaiter_guide_step_3.png" />
 </p>
 
+---
 
-## 4단계: SDK 초기화 (Initialization)
+## 4단계: 권한(Permission) 설정
+
+SDK의 라이선스 검증(네트워크)과 BLE 기능 사용을 위해 아래 권한을 `AndroidManifest.xml`에 선언해야 합니다.
+
+```xml
+<!-- AndroidManifest.xml -->
+<manifest>
+
+    <!-- 네트워크 권한 (SDK 라이선스 검증에 필요) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- BLE 권한 (Android 11 이하, API ≤ 30) -->
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30" />
+
+    <!-- BLE 권한 (Android 12 이상, API ≥ 31) -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
+
+</manifest>
+```
+
+> **⚠️ Android 버전별 BLE 권한 차이:**
+> - **Android 11 이하 (API ≤ 30):** `BLUETOOTH`, `BLUETOOTH_ADMIN`, `ACCESS_FINE_LOCATION` 필요
+> - **Android 12 이상 (API ≥ 31):** `BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT` 필요 (위치 권한 불필요)
+
+> **📌 런타임 권한 요청:** Manifest 선언 외에 앱 실행 중 사용자에게 직접 권한을 요청하는 코드도 필요합니다. 구현 방법은 **[예제: BLE 기기 스캔 및 연결](./docs/Example_BLE_Scan_Connect.md)** 문서의 1단계를 참고해 주세요.
+
+---
+
+
+## 5단계: SDK 초기화 (Initialization)
 Elegaiter SDK는 라이선스 검증을 위해 네트워크 통신이 발생합니다. 따라서 사용자의 네트워크 상태나 라이선스 오류에 대비해 UI 처리가 가능한 **시작 화면(Splash)이나 MainActivity에서 초기화하는 것을 가장 권장합니다.**
 
-### 4.1 [권장] ViewModel 및 Activity를 활용한 초기화 (UI/UX 고려)
+### 5.1 [권장] ViewModel 및 Activity를 활용한 초기화 (UI/UX 고려)
 SDK 초기화 상태에 따라 로딩 화면이나 에러 팝업(재시도)을 노출하는 방식입니다.
 
 **초기화 함수 구조 (`Elegaiter.init`)**
@@ -135,7 +183,7 @@ class MainViewModel : ViewModel() {
     }
 }
 ```
-### 4.2 [대안] Application 클래스에서 초기화 (가장 단순한 방법)
+### 5.2 [대안] Application 클래스에서 초기화 (가장 단순한 방법)
 별도의 로딩 화면이나 UI 처리가 필요 없는 간단한 프로젝트의 경우, 앱 시작 시 전역적으로 한 번만 초기화할 수 있습니다.
 ```Kotlin
 class MyApplication : Application() {
@@ -154,7 +202,9 @@ class MyApplication : Application() {
 >     ... >
 > ```
 
-## 5단계: Import 확인 및 사용
+---
+
+## 6단계: Import 확인 및 사용
 동기화와 초기화(`SUCCESS`)가 모두 완료되었다면, 이제 SDK의 다양한 기능들을 사용할 수 있습니다. `Elegaiter.getInstance()`를 호출하여 SDK 인스턴스를 가져온 뒤, 필요한 매니저(Manager)에 접근하여 기능을 구현하세요.
 
 > **🚨 주의:** 반드시 4단계의 `Elegaiter.init()`이 성공(SUCCESS)한 이후에 `getInstance()`를 호출해야 합니다. 초기화 전에 호출할 경우 에러가 발생할 수 있습니다.
