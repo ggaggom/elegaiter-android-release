@@ -13,8 +13,7 @@ MyApplication.kt   → SDK 초기화 (앱 전역, 최초 1회)
 AppState.kt        → 초기화 완료 여부 전역 상태 관리
 MainViewModel.kt   → BLE 스캔/연결/해제 비즈니스 로직
 MainActivity.kt    → 초기화 완료 전/후 화면 분기
-BleScreen.kt       → 런타임 권한 요청 + 스캔 결과 목록 및 연결
-UI (Compose)
+BleScreen.kt       → 런타임 권한 요청 + 스캔 결과 목록 및 연결 UI (Compose)
 ```
 
 ---
@@ -29,7 +28,7 @@ Android 버전에 따라 요청해야 하는 권한이 다릅니다.
 
 | Android 버전 | 필요한 런타임 권한 |
 |---|---|
-| Android 11 이하 (API ≤ 30) | `BLUETOOTH`, `BLUETOOTH_ADMIN`, `ACCESS_FINE_LOCATION` |
+| Android 11 이하 (API ≤ 30) | `ACCESS_FINE_LOCATION` |
 | Android 12 이상 (API ≥ 31) | `BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT` |
 
 런타임 권한 요청은 UI 레이어(Activity/Fragment/Composable)에서 처리합니다. 아래 3단계 UI 구현(`BleScreen.kt`)에 전체 코드가 포함되어 있습니다.
