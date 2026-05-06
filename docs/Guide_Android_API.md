@@ -491,7 +491,7 @@ suspend fun resetLostPassword(newPassword: String, token: String): Result<Unit>
 ```kotlin
 // 사용 예시
 viewModelScope.launch {
-    when (sdk.authManager.resetLostPassword(newPassword = "newPass!", token = resetToken)) {
+    when (val result = sdk.authManager.resetLostPassword(newPassword = "newPass!", token = resetToken)) {
         is Result.Success -> { /* 재설정 완료 → 로그인 화면 이동 */ }
         is Result.Error -> {
             when (result.exception) {
@@ -703,7 +703,7 @@ fun start(
 ```kotlin
 // 사용 예시
 sdk.gaitAnalysisManager.start(
-    exerciseInfo = ExerciseInfo(speed = 3.5f, incline = 0f, duration = 600, indexFoot = "left", autoSave = true),
+    exerciseInfo = ExerciseInfo(speed = 3.5f, incline = 0f, duration = 10, indexFoot = "left", autoSave = true),
     onExerciseFinished = {
         // 운동 시간 종료 → 결과 화면으로 이동
         viewModelScope.launch { navigateToResult() }
@@ -1008,7 +1008,7 @@ when (connectionState) {
 data class ExerciseInfo(
     val speed: Float = 0f,           // 트레드밀 속도 (km/h)
     val incline: Float = 0f,         // 트레드밀 경사도 (%)
-    val duration: Int = 0,           // 운동 목표 시간 (초)
+    val duration: Int = 0,           // 운동 목표 시간 (분)
     val indexFoot: String = "left",  // 인덱스 워킹 기준 발 ("left" 또는 "right")
     val autoSave: Boolean = false    // 운동 종료 시 자동 저장 여부
 )
@@ -1206,7 +1206,7 @@ Elegaiter.init(context, apiKey = "YOUR_API_KEY") { success, resultType, message 
         val exerciseInfo = ExerciseInfo(
             speed = 3.5f,
             incline = 0f,
-            duration = 600,
+            duration = 10,
             indexFoot = "left",
             autoSave = true
         )
