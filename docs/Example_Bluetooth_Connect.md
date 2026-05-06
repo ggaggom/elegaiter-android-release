@@ -395,7 +395,7 @@ fun DeviceListItem(
 - 기기 목록은 비어있는 안내 문구가 표시됩니다.
 
 <p align="left">
-  <img width=300 alt="제목 없음" src="./docs/img/elegaiter_ex_ble_connect_img1.jpg" />
+  <img width=300 alt="제목 없음" src="./img/elegaiter_ex_ble_connect_img1.jpg" />
 </p>
 
 ### 2. 스캔 시작 버튼 클릭 시
@@ -407,8 +407,8 @@ fun DeviceListItem(
 
 <table>
   <tr>
-    <td><img src="./docs/img/elegaiter_ex_ble_connect_img2.jpg" width="300"></td>
-    <td><img src="./docs/img/elegaiter_ex_ble_connect_img3.jpg" width="300"></td>
+    <td><img src="./img/elegaiter_ex_ble_connect_img2.jpg" width="300"></td>
+    <td><img src="./img/elegaiter_ex_ble_connect_img3.jpg" width="300"></td>
   </tr>
 </table>
 
@@ -420,7 +420,7 @@ fun DeviceListItem(
 - 연결 완료 후 목록 항목의 `연결 >` 텍스트가 `연결됨`으로 변경되며, 클릭이 비활성화됩니다.
 
 <p align="left">
-  <img width=300 alt="제목 없음" src="./docs/img/elegaiter_ex_ble_connect_img4.jpg" />
+  <img width=300 alt="제목 없음" src="./img/elegaiter_ex_ble_connect_img4.jpg" />
 </p>
 
 
@@ -431,7 +431,7 @@ fun DeviceListItem(
 - 연결 해제 버튼은 `CONNECTED` 상태일 때만 활성화됩니다.
 
 <p align="left">
-  <img width=300 alt="제목 없음" src="./docs/img/elegaiter_ex_ble_connect_img5.jpg" />
+  <img width=300 alt="제목 없음" src="./img/elegaiter_ex_ble_connect_img5.jpg" />
 </p>
 
 
