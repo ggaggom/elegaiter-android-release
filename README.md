@@ -121,7 +121,7 @@ SDK의 라이선스 검증(네트워크)과 BLE 기능 사용을 위해 아래 �
 > - **Android 11 이하 (API ≤ 30):** `BLUETOOTH`, `BLUETOOTH_ADMIN`, `ACCESS_FINE_LOCATION` 필요
 > - **Android 12 이상 (API ≥ 31):** `BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT` 필요 (위치 권한 불필요)
 
-> **📌 런타임 권한 요청:** Manifest 선언 외에 앱 실행 중 사용자에게 직접 권한을 요청하는 코드도 필요합니다. 구현 방법은 **[예제: BLE 기기 스캔 및 연결 (Jetpack Compose)](docs/Guide_Android_Example_BLE.md)** 문서의 1단계를 참고해 주세요.
+> **📌 런타임 권한 요청:** Manifest 선언 외에 앱 실행 중 사용자에게 직접 권한을 요청하는 코드도 필요합니다. 구현 방법은 **[예제: BLE 기기 스캔 및 연결 (Jetpack Compose)](./docs/Guide_Android_Example_BLE.md)** 문서의 1단계를 참고해 주세요.
 
 ---
 
@@ -307,8 +307,8 @@ class MainViewModel : ViewModel() {
 
 SDK의 기능을 실제 코드로 확인하고 싶다면 아래 예제 문서를 참고하세요.
 
-* **[예제: BLE 기기 스캔 및 연결 (Jetpack Compose)](docs/Guide_Android_Example_BLE.md)**: 장치 검색부터 연결 상태 관리까지의 전체 Compose 구현 가이드
-* **[API 레퍼런스](docs/Guide_Android_API.md)**: 각 Manager 클래스의 상세 메소드 및 파라미터 정의
+* **[예제: BLE 기기 스캔 및 연결 (Jetpack Compose)](./docs/Guide_Android_Example_BLE.md)**: 장치 검색부터 연결 상태 관리까지의 전체 Compose 구현 가이드
+* **[API 레퍼런스](./docs/Guide_Android_API.md)**: 각 Manager 클래스의 상세 메소드 및 파라미터 정의
 
 ---
 
