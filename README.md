@@ -121,7 +121,7 @@ SDK의 라이선스 검증(네트워크)과 BLE 기능 사용을 위해 아래 �
 > - **Android 11 이하 (API ≤ 30):** `BLUETOOTH`, `BLUETOOTH_ADMIN`, `ACCESS_FINE_LOCATION` 필요
 > - **Android 12 이상 (API ≥ 31):** `BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT` 필요 (위치 권한 불필요)
 
-> **📌 런타임 권한 요청:** Manifest 선언 외에 앱 실행 중 사용자에게 직접 권한을 요청하는 코드도 필요합니다. 구현 방법은 **[예제: BLE 기기 스캔 및 연결](./docs/Example_BLE_Scan_Connect.md)** 문서의 1단계를 참고해 주세요.
+> **📌 런타임 권한 요청:** Manifest 선언 외에 앱 실행 중 사용자에게 직접 권한을 요청하는 코드도 필요합니다. 구현 방법은 **[예제: BLE 기기 스캔 및 연결 (Jetpack Compose)](./Guide_Android_Example_BLE.md)** 문서의 1단계를 참고해 주세요.
 
 ---
 
@@ -303,11 +303,18 @@ class MainViewModel : ViewModel() {
 ```
 
 ---
+## 관련 예제 및 가이드
+
+SDK의 기능을 실제 코드로 확인하고 싶다면 아래 예제 문서를 참고하세요.
+
+* **[예제: BLE 기기 스캔 및 연결 (Jetpack Compose)](./Guide_Android_Example_BLE.md)**: 장치 검색부터 연결 상태 관리까지의 전체 Compose 구현 가이드
+* **[API 레퍼런스](./Guide_Android_API.md)**: 각 Manager 클래스의 상세 메소드 및 파라미터 정의
+
+---
 
 ## 버전 관리 및 고객 지원
 
 * **버전 관리:** `MAJOR.MINOR.PATCH` 형태의 유의적 버전(Semantic Versioning)을 따릅니다. 가급적 최신 버전을 유지하는 것을 권장합니다.
-* **API 레퍼런스:** 각 Manager의 상세 메소드, 파라미터, 반환값 등의 구조는 별도로 제공되는 **[SDK 개발가이드_API 레퍼런스](./docs/Guide_Android_API.md)** 문서를 참고해 주세요.
 * **기술 지원 및 문의:** SDK 연동 중 발생하는 이슈, API Key 발급, 기타 기술 지원은 **주식회사 사이클룩스 기술연구소**로 문의해 주시기 바랍니다.
 
 > **라이선스 안내:** 본 SDK의 사용 조건 및 라이선스는 당사와의 계약 및 제공 문서의 정책을 따릅니다.
