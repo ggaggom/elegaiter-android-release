@@ -27,7 +27,7 @@ JAWS 센서와의 BLE 연결 및 통신을 관리합니다. 스캔, 연결, Thre
 | 프로퍼티 | 타입 | 설명 |
 |----------|------|------|
 | `connectionState` | `StateFlow<BleConnectionState>` | 현재 BLE 연결 상태. UI에서 `collectAsState()`로 구독하여 연결 상태 변화를 실시간으로 반영할 수 있습니다. |
-| `thresholdResponse` | `SharedFlow<Int>` | `checkThreshold()` 호출 후 기기로부터 수신된 Threshold 값 스트림. 직접 반환값이 없으므로 이 Flow를 구독하여 응답을 수신해야 합니다. |
+| `thresholdResponse` | `SharedFlow<Int>` | `checkThreshold()`, `setThreshold()`, `setAutoThreshold()` 호출 후 기기로부터 수신된 Threshold 값 스트림. 각 메서드 호출 후 직접 반환값이 없으므로 이 Flow를 구독하여 응답을 수신해야 합니다. |
 
 ### 2.2 Methods
 
@@ -140,7 +140,7 @@ viewModelScope.launch {
 
 #### `setThreshold(level: Int)`
 
-현재 연결된 기기에 Threshold 값을 수동으로 설정합니다.
+현재 연결된 기기에 Threshold 값을 수동으로 설정합니다. 명령 전송에 성공하면, 기기는 설정된 최종 값을 `thresholdResponse`를 통해 응답합니다.
 
 ```kotlin
 suspend fun setThreshold(level: Int): Result<Unit>
@@ -158,7 +158,7 @@ suspend fun setThreshold(level: Int): Result<Unit>
 ```kotlin
 // 사용 예시
 viewModelScope.launch {
-    sdk.bleManager.setThreshold(level = 5)
+    sdk.bleManager.setThreshold(level = 40)
 }
 ```
 
@@ -166,7 +166,7 @@ viewModelScope.launch {
 
 #### `setAutoThreshold()`
 
-기기가 스스로 최적의 Threshold 값을 찾도록 자동 설정 명령(T0 프로토콜)을 전송합니다. 수동 설정이 어려운 경우 권장됩니다.
+기기가 스스로 최적의 Threshold 값을 찾도록 자동 설정 명령(T0 프로토콜)을 전송합니다. 기기가 계산을 완료하면 갱신된 값을 thresholdResponse로 반환합니다.
 
 ```kotlin
 suspend fun setAutoThreshold(): Result<Unit>
@@ -198,6 +198,11 @@ suspend fun sendError(errorCode: Int): Result<Unit>
 |----------|------|------|
 | `errorCode` | `Int` | 전송할 에러 코드 (`0` 또는 `1`) |
 
+| 에러 코드 (`errorCode`) | 의미 | 기기 동작 (JAWS) | LED 상태 |
+|-------------------------|------|------------------|----------|
+| 1 | 에러 발생 | 데이터 전송 중지 | 빨간색 (Red) |
+| 0 | 에러 해소 | 데이터 전송 재개 | 파란색 (Blue) |
+
 ```kotlin
 // 사용 예시
 viewModelScope.launch {
@@ -226,6 +231,10 @@ viewModelScope.launch {
 
 앱 시작 시 저장된 토큰의 유효성을 검사하여 자동 로그인 여부를 결정합니다. Splash 또는 MainActivity에서 가장 먼저 호출하는 것을 권장합니다.
 
+> **💡 자동 로그인 구현 가이드**
+> * 자동 로그인을 사용하는 경우: Splash 화면에서 호출하여 메인 화면으로 즉시 진입할지 결정하는 용도로 사용합니다.
+> * 자동 로그인을 사용하지 않는 경우: 이 함수를 호출할 필요가 없으며, 앱 시작 시 항상 로그인 화면을 노출하도록 설계합니다. 다만, 로그아웃 후 재진입 시의 상태 정합성을 위해 호출하는 것을 권장합니다.
+
 ```kotlin
 suspend fun checkAuthStatus(): Result<Boolean>
 ```
@@ -239,6 +248,7 @@ suspend fun checkAuthStatus(): Result<Boolean>
 ```kotlin
 // 사용 예시 (SplashViewModel)
 viewModelScope.launch {
+    // 자동 로그인을 지원하지 않는 앱이라면 이 과정을 생략하고 바로 navigateToLogin()을 호출하세요.
     when (val result = sdk.authManager.checkAuthStatus()) {
         is Result.Success -> {
             if (result.data) navigateToMain() else navigateToLogin()
@@ -295,12 +305,27 @@ suspend fun register(info: NewUserInfo): Result<Unit>
 |----------|------|------|
 | `info` | `NewUserInfo` | 신규 사용자 정보. 상세 필드는 [6.3 사용자 관련](#63-사용자-관련) 참고 |
 
+> **📌 비밀번호 힌트(pwhint) 매핑 테이블**
+> 
+> 서버 및 SDK와의 통신 정합성을 위해, 사용자에게 보여지는 텍스트 대신 아래의 고정된 상수값을 전송해야 합니다.
+
+| UI 표시 문구 (예시) | 전송해야 할 값 (String) |
+| :--- | :--- |
+| 좋아하는 색깔은? | `HINT_FAVORITE_COLOR` |
+| 어린 시절 별명은? | `HINT_CHILDHOOD_NICKNAME` |
+| 가장 좋아하는 음식은? | `HINT_FAVORITE_FOOD` |
+| 졸업한 초등학교 이름은? | `HINT_ELEMENTARY_SCHOOL` |
+| 내가 태어난 도시(고향)는? | `HINT_BIRTHPLACE` |
+| 가장 기억에 남는 여행지는? | `HINT_MEMORABLE_TRIP` |
+| 아버지의 성함은? | `HINT_FATHER_NAME` |
+
 ```kotlin
 // 사용 예시
 val newUser = NewUserInfo(
     id = "newUser123",
     pass = "password!",
-    pwhint = "내가 태어난 도시",
+    // 주의: 실제 텍스트가 아닌 매핑 테이블의 상수를 전달합니다.
+    pwhint = "HINT_BIRTHPLACE",
     pwhintAns = "서울",
     name = "홍길동",
     gender = "male",
@@ -400,6 +425,9 @@ viewModelScope.launch {
 
 비밀번호 찾기 1단계입니다. 아이디, 비밀번호 힌트, 힌트 답변이 일치하는지 확인합니다. 성공 시 비밀번호 재설정에 사용할 임시 토큰을 반환합니다.
 
+> **⚠️ 주의사항**
+> hint 파라미터에는 사용자가 보는 텍스트(예: "내가 태어난 도시")가 아닌, [6.3 사용자 관련](#63-사용자-관련) 섹션의 매핑 테이블에 정의된 고정 상수값을 전달해야 합니다.
+
 ```kotlin
 suspend fun verifyPasswordHint(id: String, hint: String, answer: String): Result<String>
 ```
@@ -413,21 +441,28 @@ suspend fun verifyPasswordHint(id: String, hint: String, answer: String): Result
 | 반환 | 설명 |
 |------|------|
 | `Result.Success(String)` | 비밀번호 재설정용 임시 토큰 (5분간 유효) |
-| `Result.Error` | 힌트/답변 불일치 또는 네트워크 오류 |
+| `Result.Error` | 인증 실패. 힌트/답변 불일치 시 `AuthException.InvalidHintException` 반환 |
 
 ```kotlin
 // 사용 예시
 viewModelScope.launch {
     when (val result = sdk.authManager.verifyPasswordHint(
         id = "user123",
-        hint = "내가 태어난 도시",
+        hint = "HINT_BIRTHPLACE",
         answer = "서울"
     )) {
         is Result.Success -> {
             val resetToken = result.data
             // 2단계: resetLostPassword(newPassword, resetToken) 호출
         }
-        is Result.Error -> { /* 힌트 불일치 안내 */ }
+        is Result.Error -> {
+            when (result.exception) {
+                is AuthException.InvalidHintException -> {
+                    // 힌트 또는 답변이 일치하지 않는 경우 처리
+                }
+                else -> { /* 기타 네트워크 오류 처리 */ }
+            }
+        }
     }
 }
 ```
@@ -447,12 +482,25 @@ suspend fun resetLostPassword(newPassword: String, token: String): Result<Unit>
 | `newPassword` | `String` | 새 비밀번호 |
 | `token` | `String` | `verifyPasswordHint()`에서 반환된 임시 토큰 |
 
+| 반환 | 설명 |
+|------|------|
+| `Result.Success<Unit>` | 비밀번호 재설정 성공 |
+| `Result.Error` | 재설정 실패. 토큰 만료 시 `AuthException.TokenExpiredException` 반환 |
+
 ```kotlin
 // 사용 예시
 viewModelScope.launch {
     when (sdk.authManager.resetLostPassword(newPassword = "newPass!", token = resetToken)) {
         is Result.Success -> { /* 재설정 완료 → 로그인 화면 이동 */ }
-        is Result.Error -> { /* 토큰 만료 또는 오류 안내 */ }
+        is Result.Error -> {
+            when (result.exception) {
+                is AuthException.TokenExpiredException -> {
+                    // 토큰 만료 (5분 경과) 안내 및 1단계로 이동
+                    showToast("인증 시간이 만료되었습니다. 다시 시도해주세요.")
+                }
+                else -> { /* 기타 네트워크 오류 처리 */ }
+            }
+        }
     }
 }
 ```
@@ -514,7 +562,7 @@ viewModelScope.launch {
 
 #### `verifyCurrentPassword(password: String)`
 
-비밀번호 변경 또는 회원 탈퇴 전, 현재 비밀번호가 일치하는지 재인증합니다.
+회원 정보 수정 등 민감한 페이지 진입 전 현재 사용자의 비밀번호가 일치하는지 재인증(Password Re-authentication)합니다. 보안을 위해 본인 확인이 필요한 시점에 호출합니다.
 
 ```kotlin
 suspend fun verifyCurrentPassword(password: String): Result<Unit>
@@ -527,13 +575,13 @@ suspend fun verifyCurrentPassword(password: String): Result<Unit>
 | 반환 | 설명 |
 |------|------|
 | `Result.Success<Unit>` | 비밀번호 일치 → 다음 단계 진행 가능 |
-| `Result.Error` | 비밀번호 불일치 또는 비로그인 상태 |
+| `Result.Error` | 비밀번호 불일치, 비로그인 상태 또는 네트워크 오류 |
 
 ```kotlin
 // 사용 예시 (비밀번호 변경 전 재인증)
 viewModelScope.launch {
     when (sdk.authManager.verifyCurrentPassword("currentPass!")) {
-        is Result.Success -> { /* 인증 성공 → changePassword() 호출 */ }
+        is Result.Success -> { /* 인증 성공 → navigateToEditProfile() 진입 */ }
         is Result.Error -> { /* 비밀번호 불일치 안내 */ }
     }
 }
@@ -604,7 +652,7 @@ suspend fun saveExerciseInfo(info: ExerciseInfo)
 
 ```kotlin
 // 사용 예시
-val exerciseInfo = ExerciseInfo(speed = 3.5f, incline = 0f, duration = 600, indexFoot = "left", autoSave = true)
+val exerciseInfo = ExerciseInfo(speed = 3.5f, incline = 0f, duration = 10, indexFoot = "left", autoSave = true)
 viewModelScope.launch {
     sdk.authManager.saveExerciseInfo(exerciseInfo)
 }
@@ -679,7 +727,12 @@ fun startIndexing(
 | 파라미터 | 타입 | 설명 |
 |----------|------|------|
 | `exerciseInfo` | `ExerciseInfo` | 운동 설정 정보 |
-| `startExerciseTimerWithDelay` | `Boolean` | `true`: 인덱스 워킹 완료 후 일정 딜레이 뒤 운동 타이머 시작. 기본값 `false` |
+| `startExerciseTimerWithDelay` | `Boolean` | `true`: 인덱스 워킹 완료 후 2초 뒤에 타이머가 시작됩니다. 기본값 `false` |
+
+> **상세 사용 시점**
+> * 지연 시작 필요 시: `start()` 호출 시 `startIndexingImmediately = false`로 설정하고, 특정 워밍업 세션이 끝난 뒤 수동으로 시작할 때.
+> * 인덱스 워킹 재시도: `indexingFailEvent`를 수신하여 분석기를 초기화하고 다시 측정을 시작해야 할 때.
+> * UX 가이드 (Delay 파라미터): 인덱스 워킹 성공 직후 "이제 본 운동을 시작합니다"와 같은 안내 오버레이를 UI에 노출할 시간이 필요한 경우 true로 설정해주세요.
 
 ```kotlin
 // 사용 예시 (인덱스 워킹 실패 후 재시도)
@@ -706,7 +759,7 @@ fun stop(): GaitMetrics
 | `GaitMetrics` | 세션 전체의 최종 보행 분석 결과 |
 
 ```kotlin
-// 사용 예시 (사용자가 중지 버튼 클릭 시)
+// 사용 예시 (사용자가 종료 버튼 클릭 시)
 val finalMetrics = sdk.gaitAnalysisManager.stop()
 // 이후 recordAndSyncGait()에 전달
 ```
@@ -715,7 +768,7 @@ val finalMetrics = sdk.gaitAnalysisManager.stop()
 
 #### `reset()`
 
-Median, IQR 등 보행 분석 통계 데이터만 초기화합니다. 연결 상태나 세션 자체는 유지됩니다. 동일 세션 내에서 측정 데이터만 리셋하고 싶을 때 사용합니다.
+Median, IQR 등 보행 분석 통계 데이터만 초기화합니다. 연결 상태나 세션 자체는 유지됩니다. 동일 세션 내에서 Median, IQR 측정 데이터만 리셋하고 싶을 때 사용합니다.
 
 ```kotlin
 fun reset()
@@ -845,7 +898,7 @@ suspend fun loadRecord(fileName: String): Result<GaitMetrics?>
 
 | 파라미터 | 타입 | 설명 |
 |----------|------|------|
-| `fileName` | `String` | `listRecords()`로 얻은 `SessionInfo`의 파일명 |
+| `fileName` | `String` | `listRecords()`로 얻은 `SessionInfo`의 `fileName` |
 
 | 반환 | 설명 |
 |------|------|
@@ -981,6 +1034,66 @@ data class GaitMetrics(
     val rightMedianData: List<Float> = emptyList()   // 오른발 Median 시계열 데이터 (그래프용)
 )
 ```
+---
+
+#### `SessionInfo`
+
+로컬 파일로 저장된 개별 운동 세션의 요약 정보입니다. 저장된 파일 목록을 UI에 리스트로 표시할 때 사용합니다.
+
+```kotlin
+data class SessionInfo(
+    val fileName: String,      // 저장된 파일명 (예: "step_stats_20260506_1.json")
+    val date: String,          // 운동 날짜 (yyyyMMdd)
+    val session: Int,          // 해당 날짜의 세션 번호
+    val elapsedTime: Long      // 실제 운동 수행 시간 (초)
+)
+```
+---
+
+#### `GaitRecordDto`
+
+서버와의 데이터 동기화 또는 상세 기록 조회를 위해 운동 설정과 기록 요약을 결합한 데이터 전송 객체(DTO)입니다.
+
+```kotlin
+@Serializable
+data class GaitRecordDto(
+    val fileName: String,            // 파일명
+    val userId: String,              // 사용자 아이디
+    val date: String,                // 운동 날짜
+    val sessionCount: Int,           // 세션 순번
+    val exerciseInfo: ExerciseInfo,  // 운동 당시 설정 값
+    val elapsedTime: Long            // 실제 수행 시간
+)
+```
+---
+
+#### `ExerciseMode` (Enum)
+현재 수행 중인 운동의 모드를 정의합니다.
+
+| 상수 | 의미 |
+|----------|------|
+| `INDEX` | 인덱스 워킹 (기준 보행 측정 단계) |
+| `STATIC` | 표준 보행 (본 운동 단계) |
+| `GAME` | 게임 모드 |
+
+```kotlin
+@Serializable
+enum class ExerciseMode {
+    INDEX, STATIC, GAME
+}
+```
+
+#### `SessionSegment`
+하나의 운동 세션 내에서 각 모드별로 소요된 시간 구간을 기록하는 클래스입니다.
+
+```kotlin
+@Serializable
+data class SessionSegment(
+    val startTime: Long,      // 구간 시작 타임스탬프
+    var endTime: Long? = null, // 구간 종료 타임스탬프
+    val mode: ExerciseMode    // 해당 구간의 운동 모드
+)
+```
 
 ---
 
@@ -1006,6 +1119,21 @@ data class NewUserInfo(
     val weight: Float       // 체중 (kg)
 )
 ```
+
+> **📌 비밀번호 힌트(pwhint) 매핑 테이블**
+> 
+> 서버 및 SDK와의 통신 정합성을 위해, 사용자에게 보여지는 텍스트 대신 아래의 고정된 상수값을 전송해야 합니다.
+
+| UI 표시 문구 (예시) | 전송해야 할 값 (String) |
+| :--- | :--- |
+| 좋아하는 색깔은? | `HINT_FAVORITE_COLOR` |
+| 어린 시절 별명은? | `HINT_CHILDHOOD_NICKNAME` |
+| 가장 좋아하는 음식은? | `HINT_FAVORITE_FOOD` |
+| 졸업한 초등학교 이름은? | `HINT_ELEMENTARY_SCHOOL` |
+| 내가 태어난 도시(고향)는? | `HINT_BIRTHPLACE` |
+| 가장 기억에 남는 여행지는? | `HINT_MEMORABLE_TRIP` |
+| 아버지의 성함은? | `HINT_FATHER_NAME` |
+
 
 ---
 
