@@ -13,12 +13,47 @@ MyApplication.kt   → SDK 초기화 (앱 전역, 최초 1회)
 AppState.kt        → 초기화 완료 여부 전역 상태 관리
 MainViewModel.kt   → BLE 스캔/연결/해제 비즈니스 로직
 MainActivity.kt    → 초기화 완료 전/후 화면 분기
-BleScreen.kt       → 스캔 결과 목록 및 연결 UI (Compose)
+BleScreen.kt       → 런타임 권한 요청 + 스캔 결과 목록 및 연결
+UI (Compose)
 ```
 
 ---
 
-## 1단계: 전역 상태 및 SDK 초기화
+## 1단계: 런타임 권한 요청
+
+`AndroidManifest.xml`에 권한을 선언하는 것만으로는 부족합니다. BLE 스캔(`bleManager.scan()`) 호출 **이전**에 사용자에게 직접 권한을 요청해야 합니다.
+
+> **📌 Manifest 권한 선언**은 연동 가이드(README) 4단계를 참고해 주세요. 이 단계에서는 런타임 요청 구현만 다룹니다.
+
+Android 버전에 따라 요청해야 하는 권한이 다릅니다.
+
+| Android 버전 | 필요한 런타임 권한 |
+|---|---|
+| Android 11 이하 (API ≤ 30) | `BLUETOOTH`, `BLUETOOTH_ADMIN`, `ACCESS_FINE_LOCATION` |
+| Android 12 이상 (API ≥ 31) | `BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT` |
+
+런타임 권한 요청은 UI 레이어(Activity/Fragment/Composable)에서 처리합니다. 아래 3단계 UI 구현(`BleScreen.kt`)에 전체 코드가 포함되어 있습니다.
+
+```kotlin
+// BleScreen.kt 내 권한 요청 핵심 코드 미리보기
+val requiredPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    arrayOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
+} else {
+    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+}
+
+val permissionLauncher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.RequestMultiplePermissions()
+) { permissions ->
+    val allGranted = permissions.values.all { it }
+    if (allGranted) viewModel.startScan()
+    else Toast.makeText(context, "BLE 기능을 사용하려면 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+}
+```
+
+---
+
+## 2단계: 전역 상태 및 SDK 초기화
 
 ### AppState.kt
 
@@ -68,7 +103,7 @@ class MyApplication : Application() {
 
 ---
 
-## 2단계: ViewModel 구현
+## 3단계: ViewModel 구현
 
 UI와 SDK 사이를 연결하는 `MainViewModel`을 작성합니다. 스캔, 연결, 해제 기능과 UI에 노출할 상태를 관리합니다.
 
@@ -150,7 +185,7 @@ class MainViewModel : ViewModel() {
 
 ---
 
-## 3단계: UI 구현 (Compose)
+## 4단계: UI 구현 (Compose)
 
 ### MainActivity.kt
 
@@ -385,7 +420,7 @@ fun DeviceListItem(
 
 ---
 
-## 4단계: 실행 결과 확인
+## 5단계: 실행 결과 확인
 
 ### 1. 앱 최초 진입 시
 
