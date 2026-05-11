@@ -1,0 +1,146 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.elegaiter.sdk",
+    "module": "android-record",
+    "version": "0.1.6",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-storage",
+          "version": {
+            "requires": "0.1.6"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-network",
+          "version": {
+            "requires": "0.1.6"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-record-0.1.6.aar",
+          "url": "android-record-0.1.6.aar",
+          "size": 15702,
+          "sha512": "9b25aa4545ef975b117ce5543f02257d335b5179dcf721221a2f063ad9d3914ae7d17c4b12d2baa40185bb080d5fb055ababa2ecaa3f3334959d4dba4ac755ea",
+          "sha256": "c9dcf0bbe59b1cb0b588f7924efcb4321f0766233ca8644aba14508e13aae553",
+          "sha1": "153cacfb9a10687b4bc6893f3cf21ba07e06e88b",
+          "md5": "f6c1492e8fdda42bb357210ab40b1034"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "common",
+          "version": {
+            "requires": "0.1.6"
+          }
+        },
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.16.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-location",
+          "version": {
+            "requires": "21.3.0"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-storage",
+          "version": {
+            "requires": "0.1.6"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-network",
+          "version": {
+            "requires": "0.1.6"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-record-0.1.6.aar",
+          "url": "android-record-0.1.6.aar",
+          "size": 15702,
+          "sha512": "9b25aa4545ef975b117ce5543f02257d335b5179dcf721221a2f063ad9d3914ae7d17c4b12d2baa40185bb080d5fb055ababa2ecaa3f3334959d4dba4ac755ea",
+          "sha256": "c9dcf0bbe59b1cb0b588f7924efcb4321f0766233ca8644aba14508e13aae553",
+          "sha1": "153cacfb9a10687b4bc6893f3cf21ba07e06e88b",
+          "md5": "f6c1492e8fdda42bb357210ab40b1034"
+        }
+      ]
+    }
+  ]
+}
