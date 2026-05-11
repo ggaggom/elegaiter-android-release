@@ -158,7 +158,7 @@ fun init(
 |--------------------------------|------|----------------|
 | `SUCCESS` | 초기화 및 라이선스 검증 성공 | SDK 메인 기능 활성화 및 다음 화면 진입 |
 | `NETWORK_ERROR` | 기기의 네트워크 연결 불량 | 네트워크 확인 안내 및 '재시도' 버튼 제공 |
-| `SERVER_ERROR` | 서버 응답 지연 및 오류 | 잠시 후 다시 시도 안내 및 '재시도' 버튼 제공 |
+| `SERVER_ERROR` | 서버 응답 지연 및 오류 | 전달받은 message 내용을 사용자에게 표시하거나 로깅 후 '재시도' 버튼 제공 |
 | `INVALID_LICENSE` | 잘못되었거나 만료된 API Key | 라이선스 오류 안내 및 앱 강제 종료 (또는 고객사 문의 안내) |
 
 **적용 예시 코드**
@@ -293,7 +293,8 @@ class MainViewModel : ViewModel() {
                 date = "2026-05-04",
                 sessionCount = 1,
                 elapsedTime = 600,
-                sessionSegments = null
+                sessionSegments = null,
+                description = "사용자 보행 기록 메모"
             )
 
             // recordResult 결과에 따른 최종 성공/실패 UI 처리
