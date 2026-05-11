@@ -802,7 +802,8 @@ suspend fun recordAndSyncGait(
     date: String,
     sessionCount: Int,
     elapsedTime: Long,
-    sessionSegments: List<SessionSegment>?
+    sessionSegments: List<SessionSegment>?,
+    description: String?
 ): Result<GaitRecordDto>
 ```
 
@@ -815,6 +816,7 @@ suspend fun recordAndSyncGait(
 | `sessionCount` | `Int` | 해당 날짜의 운동 세션 횟수 |
 | `elapsedTime` | `Long` | 실제 운동 경과 시간 (단위: 초) |
 | `sessionSegments` | `List<SessionSegment>?` | 세션 구간 정보. 없으면 `null` 또는 `emptyList()` 전달 |
+| `description` | `String?` | 해당 보행 기록에 남길 메모나 설명 (선택 사항) |
 
 ```kotlin
 // 사용 예시
@@ -827,7 +829,8 @@ viewModelScope.launch {
         date = "2026-05-04",
         sessionCount = 1,
         elapsedTime = 600L,
-        sessionSegments = null
+        sessionSegments = null,
+        description = "오전 재활 훈련 세션"
     )) {
         is Result.Success -> { /* 저장 및 동기화 성공 */ }
         is Result.Error -> { /* 로컬 저장은 완료, 서버 동기화 실패 안내 */ }
