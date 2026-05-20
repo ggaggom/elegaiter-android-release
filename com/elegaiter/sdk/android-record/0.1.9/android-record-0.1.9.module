@@ -1,0 +1,146 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.elegaiter.sdk",
+    "module": "android-record",
+    "version": "0.1.9",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-storage",
+          "version": {
+            "requires": "0.1.9"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-network",
+          "version": {
+            "requires": "0.1.9"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-record-0.1.9.aar",
+          "url": "android-record-0.1.9.aar",
+          "size": 16994,
+          "sha512": "022637fabc5069665b1f02bb242e8989d0bde73d4313b98c0730cdd6aa0eec80798cd73c7166fd47b129a4808c0198aa93942f9093b1b10ca90404a167de99b1",
+          "sha256": "9998dbcf5cad755f432252ca7b906fe0334edb7e9270bd60fc384e0b98300e00",
+          "sha1": "59100c9f314e320af40e138e9dbaadecbf93a8e0",
+          "md5": "1e6040ae290c0e812975327a514a10a9"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "common",
+          "version": {
+            "requires": "0.1.9"
+          }
+        },
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.16.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-location",
+          "version": {
+            "requires": "21.3.0"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-storage",
+          "version": {
+            "requires": "0.1.9"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-network",
+          "version": {
+            "requires": "0.1.9"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-record-0.1.9.aar",
+          "url": "android-record-0.1.9.aar",
+          "size": 16994,
+          "sha512": "022637fabc5069665b1f02bb242e8989d0bde73d4313b98c0730cdd6aa0eec80798cd73c7166fd47b129a4808c0198aa93942f9093b1b10ca90404a167de99b1",
+          "sha256": "9998dbcf5cad755f432252ca7b906fe0334edb7e9270bd60fc384e0b98300e00",
+          "sha1": "59100c9f314e320af40e138e9dbaadecbf93a8e0",
+          "md5": "1e6040ae290c0e812975327a514a10a9"
+        }
+      ]
+    }
+  ]
+}
