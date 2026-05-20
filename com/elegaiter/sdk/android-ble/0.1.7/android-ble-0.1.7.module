@@ -1,0 +1,118 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.elegaiter.sdk",
+    "module": "android-ble",
+    "version": "0.1.7",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-core",
+          "version": {
+            "requires": "0.1.7"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-ble-0.1.7.aar",
+          "url": "android-ble-0.1.7.aar",
+          "size": 19524,
+          "sha512": "fd072dbf50322ea6cb9b1fd4ce7670e9479da67b67d13b783db1bc8d979d559b52024e6d4a8036c899553fef1562921510c67548f458e555e636d5aec5b72887",
+          "sha256": "beaa26d32a70c3f254acdeeb8249c43aace90565cd93fdfaaebfa4ceaebd2ed1",
+          "sha1": "286e93f481295da99dac618e6ced3a82c117625a",
+          "md5": "5822708d1017a88878be5642017bcae4"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "common",
+          "version": {
+            "requires": "0.1.7"
+          }
+        },
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.16.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-core",
+          "version": {
+            "requires": "0.1.7"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-ble-0.1.7.aar",
+          "url": "android-ble-0.1.7.aar",
+          "size": 19524,
+          "sha512": "fd072dbf50322ea6cb9b1fd4ce7670e9479da67b67d13b783db1bc8d979d559b52024e6d4a8036c899553fef1562921510c67548f458e555e636d5aec5b72887",
+          "sha256": "beaa26d32a70c3f254acdeeb8249c43aace90565cd93fdfaaebfa4ceaebd2ed1",
+          "sha1": "286e93f481295da99dac618e6ced3a82c117625a",
+          "md5": "5822708d1017a88878be5642017bcae4"
+        }
+      ]
+    }
+  ]
+}
