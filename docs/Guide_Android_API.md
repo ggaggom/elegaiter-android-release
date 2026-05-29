@@ -328,7 +328,7 @@ val newUser = NewUserInfo(
     pwhint = "HINT_BIRTHPLACE",
     pwhintAns = "서울",
     name = "홍길동",
-    gender = "male",
+    gender = "M",  // "M" 또는 "F"
     birthday = "19900101",
     phone = "01012345678",
     height = 175.0f,
@@ -1116,7 +1116,7 @@ data class NewUserInfo(
     val pwhint: String,     // 비밀번호 찾기 힌트 질문
     val pwhintAns: String,  // 힌트 답변
     val name: String,       // 이름
-    val gender: String,     // 성별 ("male" 또는 "female")
+    val gender: String,     // 성별 ("M" 또는 "F")
     val birthday: String,   // 생년월일 ("yyyyMMdd" 형식, 예: "19900101")
     val phone: String,      // 전화번호 ("-" 없이, 예: "01012345678")
     val height: Float,      // 키 (cm)
