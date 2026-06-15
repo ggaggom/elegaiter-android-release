@@ -1,0 +1,125 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.elegaiter.sdk",
+    "module": "android-analysis",
+    "version": "0.2.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-core",
+          "version": {
+            "requires": "0.2.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-analysis-0.2.1.aar",
+          "url": "android-analysis-0.2.1.aar",
+          "size": 44278,
+          "sha512": "bd5e1ad556f6097f6bb889d5717be4d6380c1a8449b4379cef359406699523b41da00a51033676e8e63bb5874889ca39843b4881685c81b45995e03c72c0d165",
+          "sha256": "98afd92032cf978c8a9dbaf5e4dd5458595184d274eb8e3a3bd97661bafa88e4",
+          "sha1": "13fcb0143c6385f890cd3c027c5448bed197df97",
+          "md5": "3a9c9d95c2b938bbae2c4bc7a0af6eda"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "common",
+          "version": {
+            "requires": "0.2.1"
+          }
+        },
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.16.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "com.elegaiter.sdk",
+          "module": "android-core",
+          "version": {
+            "requires": "0.2.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-analysis-0.2.1.aar",
+          "url": "android-analysis-0.2.1.aar",
+          "size": 44278,
+          "sha512": "bd5e1ad556f6097f6bb889d5717be4d6380c1a8449b4379cef359406699523b41da00a51033676e8e63bb5874889ca39843b4881685c81b45995e03c72c0d165",
+          "sha256": "98afd92032cf978c8a9dbaf5e4dd5458595184d274eb8e3a3bd97661bafa88e4",
+          "sha1": "13fcb0143c6385f890cd3c027c5448bed197df97",
+          "md5": "3a9c9d95c2b938bbae2c4bc7a0af6eda"
+        }
+      ]
+    }
+  ]
+}

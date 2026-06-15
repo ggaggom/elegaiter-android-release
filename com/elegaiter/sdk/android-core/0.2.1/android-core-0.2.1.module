@@ -1,0 +1,97 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.elegaiter.sdk",
+    "module": "android-core",
+    "version": "0.2.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-core-0.2.1.aar",
+          "url": "android-core-0.2.1.aar",
+          "size": 3232,
+          "sha512": "3407c0ea2e9483ffc7ee9711c2eab750c0e97397b0eca86b532bc47612f5c8a930f5a7378d1896a8cedd4f547c0efa65bd7f21946bb81eaf98b2da5284fc072e",
+          "sha256": "729e2e5ebfacc61bfbdec521085cf431c559aa6d33f150c3a675ada9ff28bfdb",
+          "sha1": "aa6242d6d202a0a3c306e3cf9108064635079ac6",
+          "md5": "d049e87bb690d1dfdd68f4a646b42412"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.16.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.8.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "android-core-0.2.1.aar",
+          "url": "android-core-0.2.1.aar",
+          "size": 3232,
+          "sha512": "3407c0ea2e9483ffc7ee9711c2eab750c0e97397b0eca86b532bc47612f5c8a930f5a7378d1896a8cedd4f547c0efa65bd7f21946bb81eaf98b2da5284fc072e",
+          "sha256": "729e2e5ebfacc61bfbdec521085cf431c559aa6d33f150c3a675ada9ff28bfdb",
+          "sha1": "aa6242d6d202a0a3c306e3cf9108064635079ac6",
+          "md5": "d049e87bb690d1dfdd68f4a646b42412"
+        }
+      ]
+    }
+  ]
+}
