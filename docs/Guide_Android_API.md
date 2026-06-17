@@ -803,7 +803,8 @@ suspend fun recordAndSyncGait(
     sessionCount: Int,
     elapsedTime: Long,
     sessionSegments: List<SessionSegment>?,
-    description: String?
+    description: String?,
+    extraMetadata: String?,
 ): Result<GaitRecordDto>
 ```
 
@@ -817,6 +818,7 @@ suspend fun recordAndSyncGait(
 | `elapsedTime` | `Long` | 실제 운동 경과 시간 (단위: 초) |
 | `sessionSegments` | `List<SessionSegment>?` | 세션 구간 정보. 없으면 `null` 또는 `emptyList()` 전달 |
 | `description` | `String?` | 해당 보행 기록에 남길 메모나 설명 (선택 사항) |
+| `extraMetadata` | `String?` | 커스텀 JSON 문자 (선택 사항) |
 
 ```kotlin
 // 사용 예시
@@ -830,7 +832,8 @@ viewModelScope.launch {
         sessionCount = 1,
         elapsedTime = 600L,
         sessionSegments = null,
-        description = "오전 재활 훈련 세션"
+        description = "오전 재활 훈련 세션",
+        extraMetadata = """{"partner_id": "ABC-1234", "score": 95}"""
     )) {
         is Result.Success -> { /* 저장 및 동기화 성공 */ }
         is Result.Error -> { /* 로컬 저장은 완료, 서버 동기화 실패 안내 */ }
@@ -1014,6 +1017,8 @@ data class ExerciseInfo(
     val duration: Int = 0,           // 운동 목표 시간 (분)
     val indexFoot: String = "left",  // 인덱스 워킹 기준 발 ("left" 또는 "right")
     val autoSave: Boolean = false    // 운동 종료 시 자동 저장 여부
+    val mood: String = "",           // 사용자 무드
+    val exerciseMode: ExerciseMode? = null  // 운동 모
 )
 ```
 
@@ -1032,10 +1037,15 @@ data class GaitMetrics(
     val overallIqr: Double,                    // 전체 보행 IQR 값
     val stepTypeStats: StepTypeStatistics,     // 보행 유형별 통계
     val footIntensity: FootIntensityStats,     // 발 강도 통계
-    val stepDuration: StepDurationStats,       // 스텝 지속 시간 통계
-    val strideDuration: StrideDurationStats,   // 보폭 지속 시간 통계
+    val stepDuration: StepDurationStats,       // 보폭 시간(한 발→다음 발)의 평균과 안정성을 나타내는 통계
+    val strideDuration: StrideDurationStats,   // 활보 시간(한 발→같은 발)의 평균과 안정성을 나타내는 통계
+    val lastStepType: StepType = StepType.NONE,      // 가장 최근에 감지된 걸음의 종류 (걷기, 뛰기, 미분류 등)
     val leftMedianData: List<Float> = emptyList(),   // 왼발 Median 시계열 데이터 (그래프용)
-    val rightMedianData: List<Float> = emptyList()   // 오른발 Median 시계열 데이터 (그래프용)
+    val leftIqrData: List<Float> = emptyList(),      // 왼발 IQR 시계열 데이터 (그래프용)
+    val rightMedianData: List<Float> = emptyList(),  // 오른발 Median 시계열 데이터 (그래프용)
+    val rightIqrData: List<Float> = emptyList(),      // 오른발 IQR 시계열 데이터 (그래프용)
+    val fullEnvelopeHistory: List<Int> = emptyList(), // 전체 운동 envelope 데이터 (서버 전송용)
+    val stepLength: Double = 0.0,             // 보폭 길이 (cm)
 )
 ```
 ---
@@ -1066,7 +1076,8 @@ data class GaitRecordDto(
     val date: String,                // 운동 날짜
     val sessionCount: Int,           // 세션 순번
     val exerciseInfo: ExerciseInfo,  // 운동 당시 설정 값
-    val elapsedTime: Long            // 실제 수행 시간
+    val elapsedTime: Long,           // 실제 수행 시간 (초)
+    val extraMetadata: String? = null  // 커스텀 JSON 문자열
 )
 ```
 ---
@@ -1076,8 +1087,8 @@ data class GaitRecordDto(
 
 | 상수 | 의미 |
 |----------|------|
-| `INDEX` | 인덱스 워킹 (기준 보행 측정 단계) |
-| `STATIC` | 표준 보행 (본 운동 단계) |
+| `INDEX` | 인덱스 워킹 |
+| `STATIC` | 표준 보행 |
 | `GAME` | 게임 모드 |
 
 ```kotlin
@@ -1211,7 +1222,8 @@ Elegaiter.init(context, apiKey = "YOUR_API_KEY") { success, resultType, message 
             incline = 0f,
             duration = 10,
             indexFoot = "left",
-            autoSave = true
+            autoSave = true,
+            exerciseMode = ExerciseMode.STATIC
         )
 
         sdk.gaitAnalysisManager.start(
@@ -1241,7 +1253,9 @@ Elegaiter.init(context, apiKey = "YOUR_API_KEY") { success, resultType, message 
             date = "2026-05-04",
             sessionCount = 1,
             elapsedTime = 600L,
-            sessionSegments = null
+            sessionSegments = null,
+            description = null,
+            extraMetadata = null
         )
 
         // 7. BLE 연결 해제
