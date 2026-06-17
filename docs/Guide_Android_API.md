@@ -818,7 +818,7 @@ suspend fun recordAndSyncGait(
 | `elapsedTime` | `Long` | 실제 운동 경과 시간 (단위: 초) |
 | `sessionSegments` | `List<SessionSegment>?` | 세션 구간 정보. 없으면 `null` 또는 `emptyList()` 전달 |
 | `description` | `String?` | 해당 보행 기록에 남길 메모나 설명 (선택 사항) |
-| `extraMetadata` | `String?` | 커스텀 JSON 문자 (선택 사항) |
+| `extraMetadata` | `String?` | 커스텀 JSON 문자열 (선택 사항) |
 
 ```kotlin
 // 사용 예시
@@ -1018,7 +1018,7 @@ data class ExerciseInfo(
     val indexFoot: String = "left",  // 인덱스 워킹 기준 발 ("left" 또는 "right")
     val autoSave: Boolean = false    // 운동 종료 시 자동 저장 여부
     val mood: String = "",           // 사용자 무드
-    val exerciseMode: ExerciseMode? = null  // 운동 모
+    val exerciseMode: ExerciseMode? = null  // 운동 모드 
 )
 ```
 
