@@ -294,7 +294,8 @@ class MainViewModel : ViewModel() {
                 sessionCount = 1,
                 elapsedTime = 600,
                 sessionSegments = null,
-                description = "사용자 보행 기록 메모"
+                description = "사용자 보행 기록 메모",
+                extraMetadata = null
             )
 
             // recordResult 결과에 따른 최종 성공/실패 UI 처리
